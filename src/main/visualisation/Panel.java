@@ -6,15 +6,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Panel extends JPanel implements ActionListener {
+public class Panel extends JPanel implements ActionListener, KeyListener {
 
     private int width;
     private int height;
     private int blockSize;
     private int lineSize;
     private Board board;
+    private Timer timer;
 
+    //icons
     private ImageIcon number2 = new ImageIcon("src/assets/2.png");
     private ImageIcon number4 = new ImageIcon("src/assets/4.png");
     private ImageIcon number8 = new ImageIcon("src/assets/8.png");
@@ -28,14 +32,14 @@ public class Panel extends JPanel implements ActionListener {
     private ImageIcon number2048 = new ImageIcon("src/assets/2048.png");
 
 
-
     public Panel(int width, int height, int blockSize, int lineSize, Board board){
+        addKeyListener(this);
         this.board = board;
         this.height = height;
         this.width = width;
         this.blockSize = blockSize;
         this.lineSize = lineSize;
-        // this.timer = new Timer(delay, this);
+        this.timer = new Timer(1, this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
     }
@@ -46,7 +50,9 @@ public class Panel extends JPanel implements ActionListener {
         this.paintBackground(graphics);
         this.drawBorders(graphics);
         this.drawElements(graphics);
+        this.timer.start();
 
+        graphics.dispose();
     }
 
     private void paintBackground(Graphics graphics){
@@ -70,7 +76,7 @@ public class Panel extends JPanel implements ActionListener {
 
     private void drawElements(Graphics graphics){
         for(int i = 0; i < 16; i++){
-            if(this.board.isEmpty(i)){
+            if(!this.board.isEmpty(i)){
                 graphics.setColor(new Color(238, 228, 218));
                 paintIconNumber(graphics, i);
             }
@@ -134,8 +140,48 @@ public class Panel extends JPanel implements ActionListener {
         return id%4;
     }
 
+    //ActionListener
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         repaint();
+    }
+
+    //KeyListener
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+        if(keyEvent.getKeyCode() == KeyEvent.VK_UP || keyEvent.getKeyCode() == KeyEvent.VK_W){
+            if(this.board.moveUp()) {
+                this.board.addBlock();
+            }
+            System.out.println("up");
+        }
+        else if(keyEvent.getKeyCode() == KeyEvent.VK_DOWN || keyEvent.getKeyCode() == KeyEvent.VK_S){
+            if(this.board.moveDown()) {
+                this.board.addBlock();
+            }
+            System.out.println("down");
+        }
+        else if(keyEvent.getKeyCode() == KeyEvent.VK_LEFT || keyEvent.getKeyCode() == KeyEvent.VK_A){
+            if(this.board.moveLeft()) {
+                this.board.addBlock();
+            }
+            System.out.println("left");
+        }
+        else if(keyEvent.getKeyCode() == KeyEvent.VK_RIGHT || keyEvent.getKeyCode() == KeyEvent.VK_D){
+            if(this.board.moveRight()) {
+                this.board.addBlock();
+            }
+            System.out.println("right");
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
+
     }
 }

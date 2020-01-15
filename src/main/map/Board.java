@@ -12,6 +12,8 @@ public class Board {
         this.board = new LinkedList<Integer>();
         this.fillWithZeros();
         this.random = new Random();
+        this.addBlock();
+        this.addBlock();
     }
 
     private void fillWithZeros(){
@@ -34,7 +36,6 @@ public class Board {
     }
 
     public void addBlock(){
-        int places = this.freePlaces();
         int blockNumber = this.random.nextInt(16);
         while (!this.isEmpty(blockNumber)) blockNumber = this.random.nextInt(16);
         this.board.set(blockNumber, 2);
@@ -44,5 +45,101 @@ public class Board {
         return this.board.get(i);
     }
 
+    public boolean moveUp(){
+        boolean flag = false;
+        for(int k = 0; k < 3; k++){
+            for(int i = 4+k*4; i < 16; i++){
+                if(!this.board.get(i).equals(0) && this.board.get(i-4).equals(0)) {
+                    int j = i;
+                    while (j-4 >= 0 && this.board.get(j-4).equals(0)) j -= 4;
+                    this.board.set(j, this.board.get(i));
+                    this.board.set(i, 0);
+                    flag = true;
+                }
+            }
+            for(int i = k*4; i < k*4+4; i++){
+                if(!this.board.get(i).equals(0) && this.board.get(i+4).equals(this.board.get(i))){
+                    this.board.set(i, this.board.get(i)*2);
+                    this.board.set(i+4, 0);
+                    flag = true;
+                }
+            }
+        }
+        return flag;
+    }
 
+    public boolean moveDown(){
+        boolean flag = false;
+        for(int k = 3; k > 0; k--){
+            for(int i = k*4-1; i >= 0; i--){
+                if(!this.board.get(i).equals(0) && this.board.get(i+4).equals(0)) {
+                    int j = i;
+                    while (j+4 < 16 && this.board.get(j+4).equals(0)) j += 4;
+                    this.board.set(j, this.board.get(i));
+                    this.board.set(i, 0);
+                    flag = true;
+                }
+            }
+            for(int i = k*4+3; i >= k*4; i--){
+                if(!this.board.get(i).equals(0) && this.board.get(i-4).equals(this.board.get(i))){
+                    this.board.set(i, this.board.get(i)*2);
+                    this.board.set(i-4, 0);
+                    flag = true;
+                }
+            }
+        }
+        return flag;
+    }
+
+    public boolean moveLeft(){
+        boolean flag = false;
+        int[] leftMoves = {0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15};
+        for(int k = 0; k < 3; k++){
+            for(int l = 4+k*4; l < 16; l++){
+                int i = leftMoves[l];
+                if(!this.board.get(i).equals(0) && this.board.get(i-1).equals(0)) {
+                    int j = i;
+                    while (j-1 >= 0 && !(j % 4 == 0) && this.board.get(j-1).equals(0)) j -= 1;
+                    this.board.set(j, this.board.get(i));
+                    this.board.set(i, 0);
+                    flag = true;
+                }
+            }
+            for(int l = k*4; l < k*4+4; l++){
+                int i = leftMoves[l];
+                if(!this.board.get(i).equals(0) && this.board.get(i+1).equals(this.board.get(i))){
+                    this.board.set(i, this.board.get(i)*2);
+                    this.board.set(i+1, 0);
+                    flag = true;
+                }
+            }
+        }
+        return flag;
+    }
+
+    public boolean moveRight(){
+        boolean flag = false;
+        int[] rightMoves = {15, 11, 7, 3, 14, 10, 6, 2, 13, 9, 5, 1, 12, 8, 4, 0};
+        for(int k = 0; k < 3; k++){
+            for(int l = 4+k*4; l < 16; l++){
+                int i = rightMoves[l];
+                if(!this.board.get(i).equals(0) && this.board.get(i+1).equals(0)) {
+                    int j = i;
+                    while (j+1 >= 0 && !(j % 4 == 3) && this.board.get(j+1).equals(0)) j += 1;
+                    this.board.set(j, this.board.get(i));
+                    this.board.set(i, 0);
+                    flag = true;
+                }
+            }
+            for(int l = k*4; l < k*4+4; l++){
+                int i = rightMoves[l];
+                if(!this.board.get(i).equals(0) && this.board.get(i-1).equals(this.board.get(i))){
+                    this.board.set(i, this.board.get(i)*2);
+                    this.board.set(i-1, 0);
+                    flag = true;
+                }
+            }
+        }
+        return flag;
+    }
 }
