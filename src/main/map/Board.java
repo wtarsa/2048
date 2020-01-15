@@ -20,7 +20,7 @@ public class Board {
         }
     }
 
-    private boolean isEmpty(int blockNumber){
+    public boolean isEmpty(int blockNumber){
         Integer value = this.board.get(blockNumber);
         return value.equals(0);
     }
@@ -38,6 +38,10 @@ public class Board {
         int blockNumber = this.random.nextInt(16);
         while (!this.isEmpty(blockNumber)) blockNumber = this.random.nextInt(16);
         this.board.set(blockNumber, 2);
+    }
+
+    public int getValue(int i){
+        return this.board.get(i);
     }
 
 

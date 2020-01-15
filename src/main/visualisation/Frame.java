@@ -1,21 +1,26 @@
 package main.visualisation;
 
+import main.map.Board;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Frame extends JFrame {
 
     private Panel panel;
-    private int blockSize = 60;
-    private int lineSize = 10;
+    private int blockSize = 120;
+    private int lineSize = 15;
+    private Board board;
 
-    public Frame(){
+    public Frame(Board board){
+        this.board = board;
         this.setTitle("2048");
-        this.setBounds(10, 10, 5*blockSize+4*lineSize, 6*blockSize+5*lineSize);
+        //this.setBounds(10, 10, 4*blockSize+5*lineSize-60, 4*blockSize+5*lineSize+120);
+        this.setSize(4*blockSize+5*lineSize-60, 4*blockSize+5*lineSize+148);
         this.setBackground(Color.WHITE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.panel = new Panel(5*blockSize+4*lineSize, 6*blockSize+5*lineSize);
+        this.panel = new Panel(4*blockSize+5*lineSize-60, 4*blockSize+5*lineSize+120, blockSize, lineSize, board);
         this.panel.setFocusable(true);
         this.add(panel);
 
