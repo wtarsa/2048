@@ -17,6 +17,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
     private int lineSize;
     private Board board;
     private Timer timer;
+    private boolean win = false;
 
     //icons
     private ImageIcon number2 = new ImageIcon("src/assets/2.png");
@@ -32,6 +33,8 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
     private ImageIcon number2048 = new ImageIcon("src/assets/2048.png");
     private ImageIcon game_over = new ImageIcon("src/assets/game_over.png");
     private ImageIcon welcome = new ImageIcon("src/assets/welcome.png");
+    private ImageIcon congrats = new ImageIcon("src/assets/congrats.png");
+
 
     public Panel(int width, int height, int blockSize, int lineSize, Board board){
         addKeyListener(this);
@@ -52,6 +55,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
         this.drawBorders(graphics);
         this.drawElements(graphics);
         this.paintBottomInfo(graphics);
+        this.checkWin();
         this.timer.start();
 
         graphics.dispose();
@@ -148,7 +152,15 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
         else{
             game_over.paintIcon(this, graphics, 0, 0);
         }
+        if(win){
+            congrats.paintIcon(this, graphics, 0, 0);
+        }
     }
+
+    private void checkWin(){
+        this.win = this.board.win();
+    }
+
     //ActionListener
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
@@ -163,24 +175,23 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        if(keyEvent.getKeyCode() == KeyEvent.VK_UP || keyEvent.getKeyCode() == KeyEvent.VK_W){
-            if(this.board.moveUp()) {
-                this.board.addBlock();
-            }
-        }
-        else if(keyEvent.getKeyCode() == KeyEvent.VK_DOWN || keyEvent.getKeyCode() == KeyEvent.VK_S){
-            if(this.board.moveDown()) {
-                this.board.addBlock();
-            }
-        }
-        else if(keyEvent.getKeyCode() == KeyEvent.VK_LEFT || keyEvent.getKeyCode() == KeyEvent.VK_A){
-            if(this.board.moveLeft()) {
-                this.board.addBlock();
-            }
-        }
-        else if(keyEvent.getKeyCode() == KeyEvent.VK_RIGHT || keyEvent.getKeyCode() == KeyEvent.VK_D){
-            if(this.board.moveRight()) {
-                this.board.addBlock();
+        if(!win) {
+            if (keyEvent.getKeyCode() == KeyEvent.VK_UP || keyEvent.getKeyCode() == KeyEvent.VK_W) {
+                if (this.board.moveUp()) {
+                    this.board.addBlock();
+                }
+            } else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN || keyEvent.getKeyCode() == KeyEvent.VK_S) {
+                if (this.board.moveDown()) {
+                    this.board.addBlock();
+                }
+            } else if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT || keyEvent.getKeyCode() == KeyEvent.VK_A) {
+                if (this.board.moveLeft()) {
+                    this.board.addBlock();
+                }
+            } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT || keyEvent.getKeyCode() == KeyEvent.VK_D) {
+                if (this.board.moveRight()) {
+                    this.board.addBlock();
+                }
             }
         }
         else if(keyEvent.getKeyCode() == KeyEvent.VK_P){

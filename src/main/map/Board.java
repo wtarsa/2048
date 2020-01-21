@@ -163,6 +163,13 @@ public class Board {
         return false;
     }
 
+    public boolean win(){
+        for(int i = 0; i < 16; i++){
+            if(getValue(i)==2048) return true;
+        }
+        return false;
+    }
+
     public void new_game(){
         this.board.clear();
         this.fillWithZeros();
