@@ -4,7 +4,7 @@ Java clone of popular game 2048.
 
 ## Execution
 
-Project was created and developed on OOP classes, third semester of computer science studies in 
+Project was created and developed on OOP classes, third semester of computer science studies at 
 AGH University of Science and Technology.
 
 ## Example of running
