@@ -194,7 +194,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
                 }
             }
         }
-        else if(keyEvent.getKeyCode() == KeyEvent.VK_P){
+        if(keyEvent.getKeyCode() == KeyEvent.VK_P){
             this.board.new_game();
         }
     }
