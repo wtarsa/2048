@@ -31,6 +31,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
     private ImageIcon number1024 = new ImageIcon("src/assets/1024.png");
     private ImageIcon number2048 = new ImageIcon("src/assets/2048.png");
 
+    //buttons
 
     public Panel(int width, int height, int blockSize, int lineSize, Board board){
         addKeyListener(this);
@@ -51,6 +52,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
         this.drawBorders(graphics);
         this.drawElements(graphics);
         this.timer.start();
+        System.out.println(this.board.can_move());
 
         graphics.dispose();
     }

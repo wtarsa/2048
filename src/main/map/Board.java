@@ -142,4 +142,31 @@ public class Board {
         }
         return flag;
     }
+
+    public boolean can_move(){
+        if(this.freePlaces() > 0) return true;
+        else if(this.freePlaces() == 0){
+            for(int i = 0; i < 4; i++){
+                for(int j = 0; j < 4; j++){
+                    int current = i*4+j;
+                    int bottom = current + 4;
+                    int top = current - 4;
+                    int left = current - 1;
+                    int right = current + 1;
+                    if(bottom < 16 && this.getValue(current) == this.getValue(bottom)) return true;
+                    if(top > 0 && this.getValue(current) == this.getValue(top)) return true;
+                    if(left > 0 && left % 4 != 3 && this.getValue(current) == this.getValue(left)) return true;
+                    if(right % 4 != 0 && this.getValue(current) == this.getValue(right)) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void new_game(){
+        this.board.clear();
+        this.fillWithZeros();
+        this.addBlock();
+        this.addBlock();
+    }
 }
