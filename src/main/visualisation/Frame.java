@@ -15,8 +15,7 @@ public class Frame extends JFrame {
     public Frame(Board board){
         this.board = board;
         this.setTitle("2048");
-        //this.setBounds(10, 10, 4*blockSize+5*lineSize-60, 4*blockSize+5*lineSize+120);
-        this.setSize(4*blockSize+5*lineSize-60, 4*blockSize+5*lineSize+148);
+        this.setSize(4*blockSize+5*lineSize-60, 4*blockSize+5*lineSize+60);
         this.setBackground(Color.WHITE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -24,7 +23,6 @@ public class Frame extends JFrame {
         this.panel.setFocusable(true);
         this.add(panel);
 
-        //setVisible must be on the end!
         this.setVisible(true);
     }
 }

@@ -30,8 +30,8 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
     private ImageIcon number512 = new ImageIcon("src/assets/512.png");
     private ImageIcon number1024 = new ImageIcon("src/assets/1024.png");
     private ImageIcon number2048 = new ImageIcon("src/assets/2048.png");
-
-    //buttons
+    private ImageIcon game_over = new ImageIcon("src/assets/game_over.png");
+    private ImageIcon welcome = new ImageIcon("src/assets/welcome.png");
 
     public Panel(int width, int height, int blockSize, int lineSize, Board board){
         addKeyListener(this);
@@ -51,28 +51,28 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
         this.paintBackground(graphics);
         this.drawBorders(graphics);
         this.drawElements(graphics);
+        this.paintBottomInfo(graphics);
         this.timer.start();
-        System.out.println(this.board.can_move());
 
         graphics.dispose();
     }
 
     private void paintBackground(Graphics graphics){
         graphics.setColor(new Color(250, 248, 239));
-        graphics.fillRect(0, 0, width, 180);
+        graphics.fillRect(0, 0, width, 92);
 
         graphics.setColor(new Color(205, 193, 180));
-        graphics.fillRect(0, 180, width, height-180);
+        graphics.fillRect(0, 92, width, height-180);
     }
 
     private void drawBorders(Graphics graphics){
-        for(int i = 180; i < height; i+=blockSize){
+        for(int i = 92; i < height; i+=blockSize){
             graphics.setColor(new Color(187, 173, 160));
             graphics.fillRect(0, i, width, lineSize);
         }
         for(int i = 0; i < width; i+=blockSize){
             graphics.setColor(new Color(187, 173, 160));
-            graphics.fillRect(i, 180,  lineSize,height-180);
+            graphics.fillRect(i, 92,  lineSize,height-92);
         }
     }
 
@@ -121,7 +121,6 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
                 number2048.paintIcon(this, graphics, xCoordinate(i), yCoordinate(i));
                 break;
             default:
-                //number16.paintIcon(this, graphics, xCoordinate(i), yCoordinate(i));
                 break;
         }
     }
@@ -131,7 +130,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
     }
 
     private int yCoordinate(int i){
-        return 180+lineSize+(blockSize)*blockRow(i);
+        return 92+lineSize+(blockSize)*blockRow(i);
     }
 
     private int blockRow(int id){
@@ -142,6 +141,14 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
         return id%4;
     }
 
+    private void paintBottomInfo(Graphics graphics){
+        if(this.board.can_move()){
+            welcome.paintIcon(this, graphics, 0, 0);
+        }
+        else{
+            game_over.paintIcon(this, graphics, 0, 0);
+        }
+    }
     //ActionListener
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
@@ -160,25 +167,24 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
             if(this.board.moveUp()) {
                 this.board.addBlock();
             }
-            System.out.println("up");
         }
         else if(keyEvent.getKeyCode() == KeyEvent.VK_DOWN || keyEvent.getKeyCode() == KeyEvent.VK_S){
             if(this.board.moveDown()) {
                 this.board.addBlock();
             }
-            System.out.println("down");
         }
         else if(keyEvent.getKeyCode() == KeyEvent.VK_LEFT || keyEvent.getKeyCode() == KeyEvent.VK_A){
             if(this.board.moveLeft()) {
                 this.board.addBlock();
             }
-            System.out.println("left");
         }
         else if(keyEvent.getKeyCode() == KeyEvent.VK_RIGHT || keyEvent.getKeyCode() == KeyEvent.VK_D){
             if(this.board.moveRight()) {
                 this.board.addBlock();
             }
-            System.out.println("right");
+        }
+        else if(keyEvent.getKeyCode() == KeyEvent.VK_P){
+            this.board.new_game();
         }
     }
 
